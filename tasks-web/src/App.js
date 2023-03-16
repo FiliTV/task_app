@@ -48,12 +48,11 @@ const tableIcons = {
 
 function App() {
 
-    var columns = [
-        {title: "id", field: "id", editable: "never"},
-        {title: "Descripcion", field: "description", validate: rowData => rowData.description === '' ? 'Descripcion no puede estar vacio' : ''},
-        {title: "Vigente", field: "isValid", type: 'boolean'},
-        {title: "creacion", field: "createdAt", editable: "never"}
-    ]
+    var columns = [{title: "id", field: "id", editable: "never"}, {
+        title: "Descripcion",
+        field: "description",
+        validate: rowData => rowData.description === '' ? 'Descripcion no puede estar vacio' : ''
+    }, {title: "Vigente", field: "isValid", type: 'boolean'}, {title: "creado", field: "createdAt", editable: "never"}]
     const [data, setData] = useState([]); //table data
 
     const dispatch = useDispatch()
@@ -66,7 +65,6 @@ function App() {
 
     useEffect(() => {
         dispatch(getTasks())
-        // setData(users)
     }, [])
 
     const handleRowUpdate = (newData, oldData, resolve) => {
@@ -97,18 +95,15 @@ function App() {
     }
 
 
-    return (
-        <div className="App">
+    return (<div className="App">
 
 
             <div>
-                {iserror &&
-                    <Alert severity="error">
-                        {errorMessages.map((msg, i) => {
-                            return <div key={i}>{msg}</div>
-                        })}
-                    </Alert>
-                }
+                {iserror && <Alert severity="error">
+                    {errorMessages.map((msg, i) => {
+                        return <div key={i}>{msg}</div>
+                    })}
+                </Alert>}
             </div>
             <MaterialTable
                 title="User data from remote source"
@@ -116,23 +111,16 @@ function App() {
                 data={users}
                 icons={tableIcons}
                 editable={{
-                    onRowUpdate: (newData, oldData) =>
-                        new Promise((resolve) => {
-                            handleRowUpdate(newData, oldData, resolve);
-
-                        }),
-                    onRowAdd: (newData) =>
-                        new Promise((resolve) => {
-                            handleRowAdd(newData, resolve)
-                        }),
-                    onRowDelete: (oldData) =>
-                        new Promise((resolve) => {
-                            handleRowDelete(oldData, resolve)
-                        }),
+                    onRowUpdate: (newData, oldData) => new Promise((resolve) => {
+                        handleRowUpdate(newData, oldData, resolve);
+                    }), onRowAdd: (newData) => new Promise((resolve) => {
+                        handleRowAdd(newData, resolve)
+                    }), onRowDelete: (oldData) => new Promise((resolve) => {
+                        handleRowDelete(oldData, resolve)
+                    }),
                 }}
             />
-        </div>
-    );
+        </div>);
 }
 
 export default App;
