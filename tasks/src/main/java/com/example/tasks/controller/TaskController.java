@@ -37,7 +37,7 @@ public class TaskController {
 
         taskService.update(id, task);
     }
-
+    @CrossOrigin
     @DeleteMapping(value = "/tasks/{id}")
     public void delete(@PathVariable final String id) {
         taskService.delete(id);
